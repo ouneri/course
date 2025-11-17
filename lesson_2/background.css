@@ -7,7 +7,7 @@
     height: 100vh;
     background: #000;
     display: flex;
-    z-index: 0;
+    z-index: -1;
     overflow: hidden;
     pointer-events: none;
   }
@@ -33,7 +33,7 @@
   }
   
   .matrix-column::before {
-    content: "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    content: "АНДРЕЙЕСЛИТЫЭТОВИДИШЬТОТЫОЧЕНЬВНИМАТЕЛЬНЫЙ)";
     position: absolute;
     top: 0;
     left: 0;
