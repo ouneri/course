@@ -73,6 +73,10 @@ $breakpoint-desktop: 1024px;
     a {
         font-size: $font-size-54;
     }
+    
+    @media (max-width: 767px) {
+        display: none;
+    }
 }
 
 body {
@@ -245,6 +249,43 @@ section {
     background-color: $color-bg-transparent-darker;
     margin: 0;
     padding: 0;
+    position: relative;
+    z-index: 10;
+}
+
+.burger-menu {
+    position: fixed !important;
+    top: 50px;
+    right: 15px;
+    z-index: 10001 !important;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: 2px solid $color-acid-green;
+    color: $color-acid-green;
+    font-size: 28px;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+    transition: all 0.3s ease;
+    outline: none;
+    pointer-events: auto !important;
+    
+    &:hover {
+        background: $color-acid-green;
+        color: $color-black;
+        box-shadow: 0 0 15px rgba(0, 255, 65, 0.6), 
+                    0 0 30px rgba(0, 255, 65, 0.4);
+        transform: scale(1.05);
+    }
+    
+    &:active {
+        transform: scale(0.95);
+    }
+    
+    @media (min-width: $breakpoint-tablet) {
+        display: none;
+    }
 }
 
 .About_me {
@@ -344,7 +385,8 @@ section {
 
 .work_experience {
     background-color: $color-bg-transparent-dark;
-    padding-bottom: 159px;
+    padding-bottom: 10px;
+    
 
     h2 {
         color: $color-acid-green;
@@ -849,7 +891,64 @@ footer {
     }
 }
 
-@media (max-width: $breakpoint-tablet) {
+@media (max-width: 767px) {
+    .header nav {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+    
+    .header nav ul {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 70%;
+        max-width: 300px;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.95);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 80px 20px 20px 20px;
+        gap: 20px;
+        transition: left 0.3s ease;
+        z-index: 999;
+        border-right: 2px solid $color-acid-green;
+        box-shadow: 5px 0 20px rgba(0, 255, 65, 0.3);
+        display: block;
+        pointer-events: none;
+        overflow-y: auto;
+        margin: 0;
+        list-style: none;
+        
+        &:not(.nav-menu-open) {
+            visibility: hidden;
+        }
+        
+        &.nav-menu-open {
+            left: 0;
+            display: block;
+            pointer-events: auto;
+            visibility: visible;
+        }
+        
+        li {
+            width: 100%;
+            
+            a {
+                display: block;
+                padding: 15px 20px;
+                font-size: $font-size-20;
+                border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+                width: 100%;
+                
+                &:hover {
+                    background: rgba(0, 255, 65, 0.1);
+                    padding-left: 30px;
+                }
+            }
+        }
+    }
     .About_me {
         grid-template-columns: 1fr;
         row-gap: 24px;

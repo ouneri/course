@@ -11,6 +11,11 @@
 .header nav ul a {
   font-size: 54px;
 }
+@media (max-width: 767px) {
+  .header nav ul {
+    display: none;
+  }
+}
 
 body {
   margin: 0;
@@ -73,7 +78,8 @@ section {
   --move4: inset(45% 0 40% 0);
   --move5: inset(45% 0 6% 0);
   --move6: inset(14% 0 61% 0);
-  clip-path: var(--move1);
+  -webkit-clip-path: var(--move1);
+          clip-path: var(--move1);
   content: "I'M OUNERI.WEB DEVELOPER";
   position: absolute;
   top: 0;
@@ -101,47 +107,58 @@ section {
 
 @keyframes glitch_4011 {
   0% {
-    clip-path: var(--move1);
+    -webkit-clip-path: var(--move1);
+            clip-path: var(--move1);
     transform: translate(0px, -10px);
   }
   10% {
-    clip-path: var(--move2);
+    -webkit-clip-path: var(--move2);
+            clip-path: var(--move2);
     transform: translate(-10px, 10px);
   }
   20% {
-    clip-path: var(--move3);
+    -webkit-clip-path: var(--move3);
+            clip-path: var(--move3);
     transform: translate(10px, 0px);
   }
   30% {
-    clip-path: var(--move4);
+    -webkit-clip-path: var(--move4);
+            clip-path: var(--move4);
     transform: translate(-10px, 10px);
   }
   40% {
-    clip-path: var(--move5);
+    -webkit-clip-path: var(--move5);
+            clip-path: var(--move5);
     transform: translate(10px, -10px);
   }
   50% {
-    clip-path: var(--move6);
+    -webkit-clip-path: var(--move6);
+            clip-path: var(--move6);
     transform: translate(-10px, 10px);
   }
   60% {
-    clip-path: var(--move1);
+    -webkit-clip-path: var(--move1);
+            clip-path: var(--move1);
     transform: translate(10px, -10px);
   }
   70% {
-    clip-path: var(--move3);
+    -webkit-clip-path: var(--move3);
+            clip-path: var(--move3);
     transform: translate(-10px, 10px);
   }
   80% {
-    clip-path: var(--move2);
+    -webkit-clip-path: var(--move2);
+            clip-path: var(--move2);
     transform: translate(10px, -10px);
   }
   90% {
-    clip-path: var(--move4);
+    -webkit-clip-path: var(--move4);
+            clip-path: var(--move4);
     transform: translate(-10px, 10px);
   }
   100% {
-    clip-path: var(--move1);
+    -webkit-clip-path: var(--move1);
+            clip-path: var(--move1);
     transform: translate(0);
   }
 }
@@ -176,6 +193,41 @@ section {
   background-color: rgba(0, 0, 0, 0.8);
   margin: 0;
   padding: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.burger-menu {
+  position: fixed !important;
+  top: 50px;
+  right: 15px;
+  z-index: 10001 !important;
+  display: block;
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 2px solid #00ff41;
+  color: #00ff41;
+  font-size: 28px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+  transition: all 0.3s ease;
+  outline: none;
+  pointer-events: auto !important;
+}
+.burger-menu:hover {
+  background: #00ff41;
+  color: #000000;
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.6), 0 0 30px rgba(0, 255, 65, 0.4);
+  transform: scale(1.05);
+}
+.burger-menu:active {
+  transform: scale(0.95);
+}
+@media (min-width: 768px) {
+  .burger-menu {
+    display: none;
+  }
 }
 
 .About_me {
@@ -263,7 +315,7 @@ section {
 
 .work_experience {
   background-color: rgba(0, 0, 0, 0.7);
-  padding-bottom: 159px;
+  padding-bottom: 10px;
 }
 .work_experience h2 {
   color: #00ff41;
@@ -715,7 +767,58 @@ footer {
     padding: 32px 24px;
   }
 }
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+  .header nav {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+  .header nav ul {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 70%;
+    max-width: 300px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 80px 20px 20px 20px;
+    gap: 20px;
+    transition: left 0.3s ease;
+    z-index: 999;
+    border-right: 2px solid #00ff41;
+    box-shadow: 5px 0 20px rgba(0, 255, 65, 0.3);
+    display: block;
+    pointer-events: none;
+    overflow-y: auto;
+    margin: 0;
+    list-style: none;
+  }
+  .header nav ul:not(.nav-menu-open) {
+    visibility: hidden;
+  }
+  .header nav ul.nav-menu-open {
+    left: 0;
+    display: block;
+    pointer-events: auto;
+    visibility: visible;
+  }
+  .header nav ul li {
+    width: 100%;
+  }
+  .header nav ul li a {
+    display: block;
+    padding: 15px 20px;
+    font-size: 20px;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    width: 100%;
+  }
+  .header nav ul li a:hover {
+    background: rgba(0, 255, 65, 0.1);
+    padding-left: 30px;
+  }
   .About_me {
     grid-template-columns: 1fr;
     row-gap: 24px;
