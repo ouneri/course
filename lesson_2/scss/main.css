@@ -194,7 +194,7 @@ section {
   margin: 0;
   padding: 0;
   position: relative;
-  z-index: 10;
+  z-index: 1000;
 }
 
 .burger-menu {
@@ -214,6 +214,7 @@ section {
   transition: all 0.3s ease;
   outline: none;
   pointer-events: auto !important;
+  
 }
 .burger-menu:hover {
   background: #00ff41;

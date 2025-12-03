@@ -1,3 +1,6 @@
+
+// Плавность по бергер меню
+
 document.addEventListener('DOMContentLoaded', () => {
     const menubar = document.querySelector('nav ul')
     
@@ -118,3 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+//самописная хуйня
+
