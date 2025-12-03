@@ -122,5 +122,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-//самописная хуйня
+
 
