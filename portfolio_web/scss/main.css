@@ -7,7 +7,23 @@
   list-style: none;
   padding: 15px 10px;
   flex-wrap: wrap;
+
 }
+
+.header button {
+  color: #00ff41;
+  background: none;
+  padding: 24px;
+  border-radius: 20px;
+  border: 2px, solid #00ff41;
+  
+}
+
+.header button:active {
+    transform: scale(0.8);
+    transition: all 0.2s ease;
+}
+
 .header nav ul a {
   font-size: 54px;
 }
@@ -45,12 +61,22 @@ section {
   padding: 10px 20px;
 }
 
+
+.skills ul {
+  list-style: none;
+}
+
+.skills ul li {
+  margin-bottom: 10px;
+}
+
+
 .second_header {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: transparent;
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -243,7 +269,7 @@ section {
 }
 
 .About_me {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: transparent;
   padding-top: 97px;
   display: flex;
   justify-content: center;
@@ -315,7 +341,7 @@ section {
 }
 
 .work_experience {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: transparent;
   padding-bottom: 10px;
 }
 .work_experience h2 {
@@ -395,7 +421,7 @@ section {
 }
 
 .blog {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: transparent;
   padding-bottom: 180px;
   padding-top: 5px;
 }
@@ -449,7 +475,7 @@ section {
 }
 
 .coop {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: transparent;
   padding-top: 1px;
   color: white;
   flex-direction: column;
