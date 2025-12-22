@@ -41,6 +41,8 @@ Frontend development course covering HTML, CSS, JavaScript, TypeScript, and Angu
 - [ ] Task: Implement color theme manager for website
 - [ ] Additional task: Refactor repository and project structure
 
+### [Module 8: Angular](./lesson_8)
+
 ## License
 
 MIT License - see [LICENSE](./LICENSE) file.
