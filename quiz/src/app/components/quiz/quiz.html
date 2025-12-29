@@ -1,0 +1,34 @@
+<div class="quiz-container">
+  @for (item of quizService.paginatedQuizzes(); track item.id) {
+    <div class="quiz-card">
+      <h3>{{item.title}}</h3>
+      <p>{{item.description}}</p>
+      <button>Открыть квиз </button>
+      <button
+      (click)="quizService.onDelete(item.id)"
+      style="color: red; margin-left: 10px"
+      >Удалить</button>
+    </div>
+  } @empty {
+    <p>квиз в проебе</p>
+  }
+</div>
+<div class="paginations-control">
+  <button
+  (click)="quizService.prevPage()"
+  [disabled]="quizService.currentPage() === 1"
+  ></button>
+
+  <span>
+    Cтраница {{quizService.currentPage()}} из {{quizService.totalPageCount()}}
+  </span>
+
+  <button
+  (click)="quizService.nextPage()"
+  [disabled]="quizService.currentPage() === quizService.totalPageCount()"
+  >Вперед</button>
+
+  <button
+  (click)="addRandomQuiz()"
+  >Добавить квиз</button>
+</div>

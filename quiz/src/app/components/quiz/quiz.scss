@@ -1,0 +1,12 @@
+.quiz-card{
+  border: 1px solid black;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  border-radius: 5px;
+
+}
+.quiz-container{
+  display: grid;
+  gap: 10px;
+}
