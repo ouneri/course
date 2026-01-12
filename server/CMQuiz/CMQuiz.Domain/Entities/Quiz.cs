@@ -1,10 +1,12 @@
 namespace CMQuiz.Domain.Entities;
 
-public class Quiz
+/// <summary>
+/// Represents a quiz entity containing metadata and associated quiz items.
+/// </summary>
+public sealed record Quiz
 {
-    public int Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public List<QuizItem> Items { get; set; } = new();
+    public required int Id { get; init; }
+    public required string Name { get; init; }
+    public required string Description { get; init; }
+    public required List<QuizItem> Items { get; init; } = new();
 }
-

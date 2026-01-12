@@ -3,7 +3,7 @@ namespace CMQuiz.Web.API.Models;
 /// <summary>
 /// Request model for submitting a quiz response. Contains answers mapped by quiz item identifiers.
 /// </summary>
-public record QuizResponseRequestModel
+public sealed record QuizResponseRequestModel
 {
     /// <summary>
     /// Dictionary mapping quiz item identifiers to their corresponding answer values.

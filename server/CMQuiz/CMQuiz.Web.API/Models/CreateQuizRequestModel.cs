@@ -3,7 +3,7 @@ namespace CMQuiz.Web.API.Models;
 /// <summary>
 /// Request model for creating a new quiz. Contains quiz metadata and polymorphic quiz items.
 /// </summary>
-public record CreateQuizRequestModel
+public sealed record CreateQuizRequestModel
 {
     /// <summary>
     /// The name or title for the new quiz.

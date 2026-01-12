@@ -3,7 +3,7 @@ namespace CMQuiz.Application.Requests;
 /// <summary>
 /// Application request model for user authentication. Contains login credentials.
 /// </summary>
-public record LoginRequest
+public sealed record LoginRequest
 {
     /// <summary>
     /// The username of the user attempting to authenticate.

@@ -5,7 +5,7 @@ namespace CMQuiz.Application.Requests;
 /// <summary>
 /// Application request model for a range-type quiz item that requires a numeric value within a specified range.
 /// </summary>
-public record QuizItemRequestRange : QuizItemRequest
+public sealed record QuizItemRequestRange : QuizItemRequest
 {
     /// <summary>
     /// Returns QuizItemType.Range as the type for this quiz item.

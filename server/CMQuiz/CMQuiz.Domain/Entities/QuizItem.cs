@@ -1,9 +1,11 @@
 namespace CMQuiz.Domain.Entities;
 
-public abstract class QuizItem
+/// <summary>
+/// Base abstract record for polymorphic quiz item entities. Concrete implementations represent different question types.
+/// </summary>
+public abstract record QuizItem
 {
-    public int Id { get; set; }
-    public int QuizId { get; set; }
-    public QuizItemType Type { get; set; }
+    public required int Id { get; init; }
+    public required int QuizId { get; init; }
+    public required QuizItemType Type { get; init; }
 }
-

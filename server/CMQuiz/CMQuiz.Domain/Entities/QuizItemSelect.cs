@@ -1,7 +1,9 @@
 namespace CMQuiz.Domain.Entities;
 
-public class QuizItemSelect : QuizItem
+/// <summary>
+/// Represents a select-type quiz item that presents multiple choice options to users.
+/// </summary>
+public sealed record QuizItemSelect : QuizItem
 {
-    public List<string> Options { get; set; } = new();
+    public required List<string> Options { get; init; } = new();
 }
-

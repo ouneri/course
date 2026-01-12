@@ -4,7 +4,7 @@ namespace CMQuiz.Web.API.Models;
 /// Request model for creating a select-type quiz item with multiple choice options.
 /// Inherits from QuizItemRequestModel and specifies the select type discriminator.
 /// </summary>
-public record QuizItemRequestSelectModel : QuizItemRequestModel
+public sealed record QuizItemRequestSelectModel : QuizItemRequestModel
 {
     /// <summary>
     /// Returns "select" as the type discriminator for this quiz item request type.

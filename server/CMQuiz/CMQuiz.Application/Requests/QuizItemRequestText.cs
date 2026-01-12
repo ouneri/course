@@ -5,7 +5,7 @@ namespace CMQuiz.Application.Requests;
 /// <summary>
 /// Application request model for a text-type quiz item that requires a free-form text response.
 /// </summary>
-public record QuizItemRequestText : QuizItemRequest
+public sealed record QuizItemRequestText : QuizItemRequest
 {
     /// <summary>
     /// Returns QuizItemType.Text as the type for this quiz item.

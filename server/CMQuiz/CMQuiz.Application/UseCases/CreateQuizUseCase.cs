@@ -15,14 +15,9 @@ public class CreateQuizUseCase(IQuizRepository quizRepository) : ICreateQuizUseC
     /// </summary>
     public async Task<Quiz> ExecuteAsync(CreateQuizRequest request)
     {
-        var quiz = new Quiz
-        {
-            Name = request.Name,
-            Description = request.Description,
-            Items = new List<QuizItem>()
-        };
-
+        var items = new List<QuizItem>();
         int itemId = 1;
+        
         foreach (var itemRequest in request.Items)
         {
             QuizItem item = itemRequest switch
@@ -30,18 +25,21 @@ public class CreateQuizUseCase(IQuizRepository quizRepository) : ICreateQuizUseC
                 QuizItemRequestSelect select => new QuizItemSelect
                 {
                     Id = itemId++,
+                    QuizId = 0,
                     Type = QuizItemType.Select,
                     Options = select.Options.ToList()
                 },
                 QuizItemRequestText text => new QuizItemText
                 {
                     Id = itemId++,
+                    QuizId = 0,
                     Type = QuizItemType.Text,
                     Placeholder = text.Placeholder
                 },
                 QuizItemRequestRange range => new QuizItemRange
                 {
                     Id = itemId++,
+                    QuizId = 0,
                     Type = QuizItemType.Range,
                     Min = range.Min,
                     Max = range.Max
@@ -49,17 +47,27 @@ public class CreateQuizUseCase(IQuizRepository quizRepository) : ICreateQuizUseC
                 _ => throw new ArgumentException("Unknown quiz item type")
             };
             
-            item.QuizId = 0;
-            quiz.Items.Add(item);
+            items.Add(item);
         }
+
+        var quiz = new Quiz
+        {
+            Id = 0,
+            Name = request.Name,
+            Description = request.Description,
+            Items = items
+        };
 
         var createdQuiz = await quizRepository.CreateAsync(quiz);
         
-        foreach (var item in createdQuiz.Items)
+        var updatedItems = createdQuiz.Items.Select(item => item switch
         {
-            item.QuizId = createdQuiz.Id;
-        }
+            QuizItemSelect select => (QuizItem)(select with { QuizId = createdQuiz.Id }),
+            QuizItemText text => text with { QuizId = createdQuiz.Id },
+            QuizItemRange range => range with { QuizId = createdQuiz.Id },
+            _ => item
+        }).ToList();
 
-        return createdQuiz;
+        return createdQuiz with { Items = updatedItems };
     }
 }

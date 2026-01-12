@@ -4,7 +4,7 @@ namespace CMQuiz.Web.API.Models;
 /// Represents a paginated result set with metadata about pagination state.
 /// </summary>
 /// <typeparam name="T">The type of items contained in the result set.</typeparam>
-public record PagedResult<T>
+public sealed record PagedResult<T>
 {
     /// <summary>
     /// The list of items for the current page.

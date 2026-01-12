@@ -4,7 +4,7 @@ namespace CMQuiz.Web.API.Models;
 /// Request model for creating a text-type quiz item that requires a free-form text response.
 /// Inherits from QuizItemRequestModel and specifies the text type discriminator.
 /// </summary>
-public record QuizItemRequestTextModel : QuizItemRequestModel
+public sealed record QuizItemRequestTextModel : QuizItemRequestModel
 {
     /// <summary>
     /// Returns "text" as the type discriminator for this quiz item request type.

@@ -27,9 +27,10 @@ public class InMemoryQuizRepository : IQuizRepository
     /// </summary>
     public Task<Quiz> CreateAsync(Quiz quiz)
     {
-        quiz.Id = _nextId++;
-        _quizzes[quiz.Id] = quiz;
-        return Task.FromResult(quiz);
+        var id = _nextId++;
+        var quizWithId = quiz with { Id = id };
+        _quizzes[quizWithId.Id] = quizWithId;
+        return Task.FromResult(quizWithId);
     }
 
     /// <summary>

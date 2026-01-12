@@ -3,7 +3,7 @@ namespace CMQuiz.Web.API.Models;
 /// <summary>
 /// Represents a text-type quiz item that requires a free-form text response from the user.
 /// </summary>
-public record QuizItemTextModel : QuizItemModel
+public sealed record QuizItemTextModel : QuizItemModel
 {
     /// <summary>
     /// Returns "text" as the type discriminator for this quiz item type.

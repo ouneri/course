@@ -3,7 +3,7 @@ namespace CMQuiz.Application.Requests;
 /// <summary>
 /// Application request model for user registration. Contains account creation credentials.
 /// </summary>
-public record RegisterRequest
+public sealed record RegisterRequest
 {
     /// <summary>
     /// The desired username for the new account. Must be unique within the system.

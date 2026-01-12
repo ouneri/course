@@ -1,7 +1,9 @@
 namespace CMQuiz.Domain.Entities;
 
-public class QuizItemText : QuizItem
+/// <summary>
+/// Represents a text-type quiz item that requires a free-form text response from users.
+/// </summary>
+public sealed record QuizItemText : QuizItem
 {
-    public string Placeholder { get; set; } = string.Empty;
+    public required string Placeholder { get; init; } = string.Empty;
 }
-

@@ -1,8 +1,10 @@
 namespace CMQuiz.Domain.Entities;
 
-public class QuizItemRange : QuizItem
+/// <summary>
+/// Represents a range-type quiz item that requires a numeric value within a specified range.
+/// </summary>
+public sealed record QuizItemRange : QuizItem
 {
-    public int Min { get; set; }
-    public int Max { get; set; }
+    public required int Min { get; init; }
+    public required int Max { get; init; }
 }
-

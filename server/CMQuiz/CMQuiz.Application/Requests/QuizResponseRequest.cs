@@ -3,7 +3,7 @@ namespace CMQuiz.Application.Requests;
 /// <summary>
 /// Application request model for submitting a quiz response. Contains answers mapped by quiz item identifiers.
 /// </summary>
-public record QuizResponseRequest
+public sealed record QuizResponseRequest
 {
     /// <summary>
     /// The unique identifier of the quiz that this response is for.

@@ -31,6 +31,7 @@ public class SubmitQuizResponseUseCase(IQuizResponseRepository responseRepositor
 
         var response = new Domain.Entities.QuizResponse
         {
+            Id = 0,
             QuizId = request.QuizId,
             UserId = userId,
             Answers = new Dictionary<int, object>(request.Answers)

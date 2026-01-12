@@ -4,7 +4,7 @@ namespace CMQuiz.Web.API.Models;
 /// Request model for creating a range-type quiz item that requires a numeric value within a specified range.
 /// Inherits from QuizItemRequestModel and specifies the range type discriminator.
 /// </summary>
-public record QuizItemRequestRangeModel : QuizItemRequestModel
+public sealed record QuizItemRequestRangeModel : QuizItemRequestModel
 {
     /// <summary>
     /// Returns "range" as the type discriminator for this quiz item request type.

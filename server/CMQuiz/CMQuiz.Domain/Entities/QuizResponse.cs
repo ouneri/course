@@ -1,10 +1,12 @@
 namespace CMQuiz.Domain.Entities;
 
-public class QuizResponse
+/// <summary>
+/// Represents a user's response to a quiz with answers mapped by quiz item identifiers.
+/// </summary>
+public sealed record QuizResponse
 {
-    public int Id { get; set; }
-    public int QuizId { get; set; }
-    public int UserId { get; set; }
-    public Dictionary<int, object> Answers { get; set; } = new();
+    public required int Id { get; init; }
+    public required int QuizId { get; init; }
+    public required int UserId { get; init; }
+    public required Dictionary<int, object> Answers { get; init; } = new();
 }
-

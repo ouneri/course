@@ -18,15 +18,16 @@ public class InMemoryQuizResponseRepository : IQuizResponseRepository
     /// </summary>
     public Task<QuizResponse> CreateAsync(QuizResponse response)
     {
-        response.Id = _nextId++;
+        var id = _nextId++;
+        var responseWithId = response with { Id = id };
         
-        if (!_responses.ContainsKey(response.QuizId))
+        if (!_responses.ContainsKey(responseWithId.QuizId))
         {
-            _responses[response.QuizId] = new List<QuizResponse>();
+            _responses[responseWithId.QuizId] = new List<QuizResponse>();
         }
         
-        _responses[response.QuizId].Add(response);
-        return Task.FromResult(response);
+        _responses[responseWithId.QuizId].Add(responseWithId);
+        return Task.FromResult(responseWithId);
     }
 
     /// <summary>

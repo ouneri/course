@@ -3,7 +3,7 @@ namespace CMQuiz.Web.API.Models;
 /// <summary>
 /// Represents a quiz entity in API responses. Contains quiz metadata and associated quiz items.
 /// </summary>
-public record QuizModel
+public sealed record QuizModel
 {
     /// <summary>
     /// The unique identifier of the quiz.

@@ -3,7 +3,7 @@ namespace CMQuiz.Application.Requests;
 /// <summary>
 /// Application request model for creating a new quiz. Contains quiz metadata and polymorphic quiz items.
 /// </summary>
-public record CreateQuizRequest
+public sealed record CreateQuizRequest
 {
     /// <summary>
     /// The name or title for the new quiz.

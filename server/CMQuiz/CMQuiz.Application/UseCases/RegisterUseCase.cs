@@ -26,6 +26,7 @@ public class RegisterUseCase(IUserRepository userRepository) : IRegisterUseCase
         
         var user = new Domain.Entities.User
         {
+            Id = 0,
             Username = request.Username,
             PasswordHash = passwordHash
         };

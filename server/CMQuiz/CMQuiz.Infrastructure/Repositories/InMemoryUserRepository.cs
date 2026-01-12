@@ -28,10 +28,11 @@ public class InMemoryUserRepository : IUserRepository
     /// </summary>
     public Task<User> CreateAsync(User user)
     {
-        user.Id = _nextId++;
-        _usersByUsername[user.Username] = user;
-        _usersById[user.Id] = user;
-        return Task.FromResult(user);
+        var id = _nextId++;
+        var userWithId = user with { Id = id };
+        _usersByUsername[userWithId.Username] = userWithId;
+        _usersById[userWithId.Id] = userWithId;
+        return Task.FromResult(userWithId);
     }
 
     /// <summary>

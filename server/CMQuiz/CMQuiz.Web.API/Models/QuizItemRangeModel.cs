@@ -3,7 +3,7 @@ namespace CMQuiz.Web.API.Models;
 /// <summary>
 /// Represents a range-type quiz item that requires a numeric value within a specified range.
 /// </summary>
-public record QuizItemRangeModel : QuizItemModel
+public sealed record QuizItemRangeModel : QuizItemModel
 {
     /// <summary>
     /// Returns "range" as the type discriminator for this quiz item type.

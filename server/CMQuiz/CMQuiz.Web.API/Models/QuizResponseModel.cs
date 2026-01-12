@@ -3,7 +3,7 @@ namespace CMQuiz.Web.API.Models;
 /// <summary>
 /// Response model representing a submitted quiz response with user answers.
 /// </summary>
-public record QuizResponseModel
+public sealed record QuizResponseModel
 {
     /// <summary>
     /// The unique identifier of the quiz response.

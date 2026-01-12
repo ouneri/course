@@ -5,7 +5,7 @@ namespace CMQuiz.Application.Requests;
 /// <summary>
 /// Application request model for a select-type quiz item with multiple choice options.
 /// </summary>
-public record QuizItemRequestSelect : QuizItemRequest
+public sealed record QuizItemRequestSelect : QuizItemRequest
 {
     /// <summary>
     /// Returns QuizItemType.Select as the type for this quiz item.

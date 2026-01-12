@@ -3,7 +3,7 @@ namespace CMQuiz.Web.API.Models;
 /// <summary>
 /// Request model for user authentication. Contains login credentials.
 /// </summary>
-public record LoginRequestModel
+public sealed record LoginRequestModel
 {
     /// <summary>
     /// The username of the user attempting to authenticate.
