@@ -1,19 +1,15 @@
+using System.Text.Json.Serialization;
+
 namespace CMQuiz.Web.API.Models;
 
-public class QuizItemModel
+[JsonDerivedType(typeof(QuizItemSelectModel), typeDiscriminator: "select")]
+[JsonDerivedType(typeof(QuizItemTextModel), typeDiscriminator: "text")]
+[JsonDerivedType(typeof(QuizItemRangeModel), typeDiscriminator: "range")]
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
+public abstract class QuizItemModel
 {
+    [JsonPropertyName("type")]
+    public abstract string Type { get; }
     public int Id { get; set; }
     public int QuizId { get; set; }
-    public string Type { get; set; } = string.Empty;
-    
-    // For Select
-    public List<string>? Options { get; set; }
-    
-    // For Text
-    public string? Placeholder { get; set; }
-    
-    // For Range
-    public int? Min { get; set; }
-    public int? Max { get; set; }
 }
-

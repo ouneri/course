@@ -1,6 +1,4 @@
 using CMQuiz.Application.Interfaces;
-using CMQuiz.Application.Requests;
-using CMQuiz.Domain.Entities;
 using CMQuiz.Web.API.Attributes;
 using CMQuiz.Web.API.Mappers;
 using CMQuiz.Web.API.Models;
@@ -24,7 +22,7 @@ public class QuizController(
     {
         var request = QuizMapper.ToCreateQuizRequest(model);
         var quiz = await createQuizUseCase.ExecuteAsync(request);
-        var dto = MapToDto(quiz);
+        var dto = QuizMapper.ToQuizModel(quiz);
         return Ok(dto);
     }
 
@@ -40,45 +38,8 @@ public class QuizController(
             return NotFound();
         }
 
-        var dto = MapToDto(quiz);
+        var dto = QuizMapper.ToQuizModel(quiz);
         return Ok(dto);
-    }
-
-    private static QuizModel MapToDto(Quiz quiz)
-    {
-        return new QuizModel
-        {
-            Id = quiz.Id,
-            Name = quiz.Name,
-            Description = quiz.Description,
-            Items = quiz.Items.Select(item => MapItemToDto(item, quiz.Id)).ToList()
-        };
-    }
-
-    private static QuizItemModel MapItemToDto(QuizItem item, int quizId)
-    {
-        var dto = new QuizItemModel
-        {
-            Id = item.Id,
-            QuizId = quizId,
-            Type = item.Type.ToString().ToLower()
-        };
-
-        switch (item)
-        {
-            case QuizItemSelect select:
-                dto.Options = select.Options;
-                break;
-            case QuizItemText text:
-                dto.Placeholder = text.Placeholder;
-                break;
-            case QuizItemRange range:
-                dto.Min = range.Min;
-                dto.Max = range.Max;
-                break;
-        }
-
-        return dto;
     }
 }
 

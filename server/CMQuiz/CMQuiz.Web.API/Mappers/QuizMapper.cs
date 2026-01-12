@@ -1,4 +1,5 @@
 using CMQuiz.Application.Requests;
+using CMQuiz.Domain.Entities;
 using CMQuiz.Web.API.Models;
 
 namespace CMQuiz.Web.API.Mappers;
@@ -31,6 +32,44 @@ public static class QuizMapper
             {
                 Min = m.Min,
                 Max = m.Max
+            },
+            _ => throw new ArgumentException("Unknown quiz item type")
+        };
+    }
+
+    public static QuizModel ToQuizModel(Quiz quiz)
+    {
+        return new QuizModel
+        {
+            Id = quiz.Id,
+            Name = quiz.Name,
+            Description = quiz.Description,
+            Items = quiz.Items.Select(item => ToQuizItemModel(item, quiz.Id)).ToList()
+        };
+    }
+
+    private static QuizItemModel ToQuizItemModel(QuizItem item, int quizId)
+    {
+        return item switch
+        {
+            QuizItemSelect select => new QuizItemSelectModel
+            {
+                Id = item.Id,
+                QuizId = quizId,
+                Options = select.Options
+            },
+            QuizItemText text => new QuizItemTextModel
+            {
+                Id = item.Id,
+                QuizId = quizId,
+                Placeholder = text.Placeholder
+            },
+            QuizItemRange range => new QuizItemRangeModel
+            {
+                Id = item.Id,
+                QuizId = quizId,
+                Min = range.Min,
+                Max = range.Max
             },
             _ => throw new ArgumentException("Unknown quiz item type")
         };

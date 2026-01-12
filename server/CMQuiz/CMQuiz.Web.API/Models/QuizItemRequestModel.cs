@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace CMQuiz.Web.API.Models;
@@ -8,6 +9,7 @@ namespace CMQuiz.Web.API.Models;
 [JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
 public abstract class QuizItemRequestModel
 {
+    [Required]
     [JsonPropertyName("type")]
     public abstract string Type { get; }
 }
