@@ -5,15 +5,14 @@ using CMQuiz.Domain.Repositories;
 
 namespace CMQuiz.Application.UseCases;
 
-public class CreateQuizUseCase : ICreateQuizUseCase
+/// <summary>
+/// Use case implementation for creating a new quiz with polymorphic quiz items.
+/// </summary>
+public class CreateQuizUseCase(IQuizRepository quizRepository) : ICreateQuizUseCase
 {
-    private readonly IQuizRepository _quizRepository;
-
-    public CreateQuizUseCase(IQuizRepository quizRepository)
-    {
-        _quizRepository = quizRepository;
-    }
-
+    /// <summary>
+    /// Creates a new quiz entity from the request, mapping polymorphic quiz items to their concrete types.
+    /// </summary>
     public async Task<Quiz> ExecuteAsync(CreateQuizRequest request)
     {
         var quiz = new Quiz
@@ -32,7 +31,7 @@ public class CreateQuizUseCase : ICreateQuizUseCase
                 {
                     Id = itemId++,
                     Type = QuizItemType.Select,
-                    Options = select.Options
+                    Options = select.Options.ToList()
                 },
                 QuizItemRequestText text => new QuizItemText
                 {
@@ -50,13 +49,12 @@ public class CreateQuizUseCase : ICreateQuizUseCase
                 _ => throw new ArgumentException("Unknown quiz item type")
             };
             
-            item.QuizId = 0; // Will be set after quiz is created
+            item.QuizId = 0;
             quiz.Items.Add(item);
         }
 
-        var createdQuiz = await _quizRepository.CreateAsync(quiz);
+        var createdQuiz = await quizRepository.CreateAsync(quiz);
         
-        // Update QuizId for all items
         foreach (var item in createdQuiz.Items)
         {
             item.QuizId = createdQuiz.Id;
@@ -65,4 +63,3 @@ public class CreateQuizUseCase : ICreateQuizUseCase
         return createdQuiz;
     }
 }
-

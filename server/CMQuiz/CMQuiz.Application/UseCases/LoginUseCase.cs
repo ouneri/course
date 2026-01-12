@@ -7,20 +7,17 @@ using CMQuiz.Infrastructure.Services;
 
 namespace CMQuiz.Application.UseCases;
 
-public class LoginUseCase : ILoginUseCase
+/// <summary>
+/// Use case implementation for authenticating users and creating sessions.
+/// </summary>
+public class LoginUseCase(IUserRepository userRepository, ISessionService sessionService) : ILoginUseCase
 {
-    private readonly IUserRepository _userRepository;
-    private readonly ISessionService _sessionService;
-
-    public LoginUseCase(IUserRepository userRepository, ISessionService sessionService)
-    {
-        _userRepository = userRepository;
-        _sessionService = sessionService;
-    }
-
+    /// <summary>
+    /// Authenticates a user by validating credentials and creates a session if successful.
+    /// </summary>
     public async Task<string?> ExecuteAsync(LoginRequest request)
     {
-        var user = await _userRepository.GetByUsernameAsync(request.Username);
+        var user = await userRepository.GetByUsernameAsync(request.Username);
         if (user == null)
         {
             return null;
@@ -32,10 +29,15 @@ public class LoginUseCase : ILoginUseCase
             return null;
         }
 
-        var sessionId = _sessionService.CreateSession(user.Id);
+        var sessionId = sessionService.CreateSession(user.Id);
         return sessionId;
     }
 
+    /// <summary>
+    /// Hashes a password using SHA256 algorithm and returns base64 encoded result.
+    /// </summary>
+    /// <param name="password">The plain text password to hash.</param>
+    /// <returns>Base64 encoded hash of the password.</returns>
     private static string HashPassword(string password)
     {
         using var sha256 = SHA256.Create();
@@ -44,4 +46,3 @@ public class LoginUseCase : ILoginUseCase
         return Convert.ToBase64String(hash);
     }
 }
-

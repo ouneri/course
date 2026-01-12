@@ -1,21 +1,18 @@
 using CMQuiz.Application.Interfaces;
-using CMQuiz.Domain.Entities;
 using CMQuiz.Domain.Repositories;
 
 namespace CMQuiz.Application.UseCases;
 
-public class GetQuizUseCase : IGetQuizUseCase
+/// <summary>
+/// Use case implementation for retrieving a single quiz by identifier.
+/// </summary>
+public class GetQuizUseCase(IQuizRepository quizRepository) : IGetQuizUseCase
 {
-    private readonly IQuizRepository _quizRepository;
-
-    public GetQuizUseCase(IQuizRepository quizRepository)
+    /// <summary>
+    /// Retrieves a quiz entity from the repository by its identifier.
+    /// </summary>
+    public async Task<Domain.Entities.Quiz?> ExecuteAsync(int quizId)
     {
-        _quizRepository = quizRepository;
-    }
-
-    public async Task<Quiz?> ExecuteAsync(int quizId)
-    {
-        return await _quizRepository.GetByIdAsync(quizId);
+        return await quizRepository.GetByIdAsync(quizId);
     }
 }
-

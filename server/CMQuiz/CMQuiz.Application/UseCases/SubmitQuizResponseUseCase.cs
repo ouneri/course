@@ -1,33 +1,25 @@
 using CMQuiz.Application.Interfaces;
 using CMQuiz.Application.Requests;
-using CMQuiz.Domain.Entities;
 using CMQuiz.Domain.Repositories;
 
 namespace CMQuiz.Application.UseCases;
 
-public class SubmitQuizResponseUseCase : ISubmitQuizResponseUseCase
+/// <summary>
+/// Use case implementation for submitting quiz responses with validation.
+/// </summary>
+public class SubmitQuizResponseUseCase(IQuizResponseRepository responseRepository, IQuizRepository quizRepository) : ISubmitQuizResponseUseCase
 {
-    private readonly IQuizResponseRepository _responseRepository;
-    private readonly IQuizRepository _quizRepository;
-
-    public SubmitQuizResponseUseCase(
-        IQuizResponseRepository responseRepository,
-        IQuizRepository quizRepository)
+    /// <summary>
+    /// Validates the quiz and quiz items, then creates a response entity.
+    /// </summary>
+    public async Task<Domain.Entities.QuizResponse> ExecuteAsync(QuizResponseRequest request, int userId)
     {
-        _responseRepository = responseRepository;
-        _quizRepository = quizRepository;
-    }
-
-    public async Task<QuizResponse> ExecuteAsync(QuizResponseRequest request, int userId)
-    {
-        // Validate that quiz exists
-        var quiz = await _quizRepository.GetByIdAsync(request.QuizId);
+        var quiz = await quizRepository.GetByIdAsync(request.QuizId);
         if (quiz == null)
         {
             throw new ArgumentException("Quiz not found");
         }
 
-        // Validate that all item IDs exist in the quiz
         var itemIds = quiz.Items.Select(i => i.Id).ToHashSet();
         foreach (var answerKey in request.Answers.Keys)
         {
@@ -37,14 +29,13 @@ public class SubmitQuizResponseUseCase : ISubmitQuizResponseUseCase
             }
         }
 
-        var response = new QuizResponse
+        var response = new Domain.Entities.QuizResponse
         {
             QuizId = request.QuizId,
             UserId = userId,
-            Answers = request.Answers
+            Answers = new Dictionary<int, object>(request.Answers)
         };
 
-        return await _responseRepository.CreateAsync(response);
+        return await responseRepository.CreateAsync(response);
     }
 }
-

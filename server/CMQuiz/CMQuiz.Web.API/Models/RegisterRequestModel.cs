@@ -1,8 +1,17 @@
 namespace CMQuiz.Web.API.Models;
 
-public class RegisterRequestModel
+/// <summary>
+/// Request model for user registration. Contains account creation credentials.
+/// </summary>
+public record RegisterRequestModel
 {
-    public string Username { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-}
+    /// <summary>
+    /// The desired username for the new account. Must be unique within the system.
+    /// </summary>
+    public required string Username { get; init; }
 
+    /// <summary>
+    /// The plain text password for the new account. Will be hashed before storage.
+    /// </summary>
+    public required string Password { get; init; }
+}

@@ -1,9 +1,23 @@
 namespace CMQuiz.Web.API.Models;
 
-public class QuizItemRequestRangeModel : QuizItemRequestModel
+/// <summary>
+/// Request model for creating a range-type quiz item that requires a numeric value within a specified range.
+/// Inherits from QuizItemRequestModel and specifies the range type discriminator.
+/// </summary>
+public record QuizItemRequestRangeModel : QuizItemRequestModel
 {
+    /// <summary>
+    /// Returns "range" as the type discriminator for this quiz item request type.
+    /// </summary>
     public override string Type => "range";
-    public int Min { get; set; }
-    public int Max { get; set; }
-}
 
+    /// <summary>
+    /// The minimum allowed value for the range input.
+    /// </summary>
+    public required int Min { get; init; }
+
+    /// <summary>
+    /// The maximum allowed value for the range input.
+    /// </summary>
+    public required int Max { get; init; }
+}

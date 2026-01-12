@@ -6,7 +6,6 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -15,10 +14,9 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "CMQuiz API",
         Version = "v1",
-        Description = "API для управления квизами"
+        Description = "RESTful API for managing quizzes, quiz items, and user responses. Supports polymorphic quiz item types and cookie-based authentication."
     });
 
-    // Include XML comments
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     if (File.Exists(xmlPath))
@@ -26,21 +24,18 @@ builder.Services.AddSwaggerGen(c =>
         c.IncludeXmlComments(xmlPath);
     }
 
-    // Configure polymorphic types
     c.UseAllOfForInheritance();
     c.UseOneOfForPolymorphism();
 });
 
-// Add Infrastructure
 builder.Services.AddInfrastructure();
-
-// Add Filters
 builder.Services.AddScoped<CMQuiz.Web.API.Filters.AuthorizeFilter>();
 
-// Add Application Use Cases
 builder.Services.AddScoped<ICreateQuizUseCase, CreateQuizUseCase>();
 builder.Services.AddScoped<IGetQuizUseCase, GetQuizUseCase>();
+builder.Services.AddScoped<IGetQuizzesUseCase, GetQuizzesUseCase>();
 builder.Services.AddScoped<ISubmitQuizResponseUseCase, SubmitQuizResponseUseCase>();
+builder.Services.AddScoped<IGetQuizResponsesUseCase, GetQuizResponsesUseCase>();
 builder.Services.AddScoped<ILoginUseCase, LoginUseCase>();
 builder.Services.AddScoped<IRegisterUseCase, RegisterUseCase>();
 

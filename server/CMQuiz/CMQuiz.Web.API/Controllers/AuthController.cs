@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CMQuiz.Web.API.Controllers;
 
+/// <summary>
+/// Controller for handling user authentication operations including login, registration, logout, and session validation.
+/// </summary>
 [ApiController]
 [Route("api/auth")]
 public class AuthController(
@@ -16,8 +19,10 @@ public class AuthController(
     : ControllerBase
 {
     /// <summary>
-    /// Войти в систему
+    /// Authenticates a user and creates a session cookie.
     /// </summary>
+    /// <param name="model">Login credentials containing username and password.</param>
+    /// <returns>Success message if authentication succeeds, otherwise returns unauthorized status.</returns>
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequestModel model)
     {
@@ -33,7 +38,7 @@ public class AuthController(
         {
             HttpOnly = true,
             SameSite = SameSiteMode.Strict,
-            Secure = false, // Set to true in production with HTTPS
+            Secure = false,
             Expires = DateTimeOffset.UtcNow.AddDays(7)
         };
 
@@ -43,8 +48,10 @@ public class AuthController(
     }
 
     /// <summary>
-    /// Зарегистрировать нового пользователя
+    /// Registers a new user account in the system.
     /// </summary>
+    /// <param name="model">Registration data containing username and password.</param>
+    /// <returns>Created user information if registration succeeds, otherwise returns conflict status.</returns>
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegisterRequestModel model)
     {
@@ -62,8 +69,9 @@ public class AuthController(
     }
 
     /// <summary>
-    /// Выйти из системы
+    /// Logs out the current user by invalidating the session cookie.
     /// </summary>
+    /// <returns>Success message indicating logout was successful.</returns>
     [HttpPost("logout")]
     public IActionResult Logout()
     {
@@ -78,8 +86,9 @@ public class AuthController(
     }
 
     /// <summary>
-    /// Проверить текущего пользователя
+    /// Retrieves information about the currently authenticated user.
     /// </summary>
+    /// <returns>User identifier if authenticated, otherwise returns unauthorized status.</returns>
     [HttpGet("me")]
     [Authorize]
     public IActionResult GetMe()

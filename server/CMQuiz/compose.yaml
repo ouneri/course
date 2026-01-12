@@ -4,4 +4,5 @@
     build:
       context: .
       dockerfile: CMQuiz.Web.API/Dockerfile
-
+    ports:
+      - 5000:5000

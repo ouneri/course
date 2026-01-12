@@ -1,8 +1,17 @@
 namespace CMQuiz.Web.API.Models;
 
-public class LoginRequestModel
+/// <summary>
+/// Request model for user authentication. Contains login credentials.
+/// </summary>
+public record LoginRequestModel
 {
-    public string Username { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-}
+    /// <summary>
+    /// The username of the user attempting to authenticate.
+    /// </summary>
+    public required string Username { get; init; }
 
+    /// <summary>
+    /// The plain text password of the user. Will be hashed and compared with stored password hash.
+    /// </summary>
+    public required string Password { get; init; }
+}

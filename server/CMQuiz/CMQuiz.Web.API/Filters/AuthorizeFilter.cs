@@ -5,8 +5,16 @@ using System.Security.Claims;
 
 namespace CMQuiz.Web.API.Filters;
 
+/// <summary>
+/// Authorization filter that validates user authentication by checking session cookie.
+/// Sets user claims if authentication is successful, otherwise returns unauthorized result.
+/// </summary>
 public class AuthorizeFilter(ISessionService sessionService) : IAuthorizationFilter
 {
+    /// <summary>
+    /// Validates the session cookie and sets user identity if valid.
+    /// </summary>
+    /// <param name="context">The authorization filter context containing HTTP request information.</param>
     public void OnAuthorization(AuthorizationFilterContext context)
     {
         var sessionId = context.HttpContext.Request.Cookies["sessionId"];

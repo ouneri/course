@@ -3,8 +3,16 @@ using System.Security.Claims;
 
 namespace CMQuiz.Web.API.Middleware;
 
+/// <summary>
+/// Middleware for handling authentication via session cookies.
+/// Note: This middleware is currently not used in the pipeline, authorization is handled via AuthorizeFilter.
+/// </summary>
 public class AuthMiddleware(RequestDelegate next, ISessionService sessionService)
 {
+    /// <summary>
+    /// Processes the HTTP request and validates session authentication.
+    /// </summary>
+    /// <param name="context">The HTTP context for the current request.</param>
     public async Task InvokeAsync(HttpContext context)
     {
         if (context.Request.Path.StartsWithSegments("/api/auth") && 
