@@ -1,0 +1,7 @@
+﻿services:
+  cmquiz:
+    image: cmquiz
+    build:
+      context: .
+      dockerfile: CMQuiz.Web.API/Dockerfile
+
