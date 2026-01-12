@@ -1,6 +1,6 @@
 using CMQuiz.Application.Interfaces;
-using CMQuiz.Application.Requests;
 using CMQuiz.Infrastructure.Services;
+using CMQuiz.Web.API.Attributes;
 using CMQuiz.Web.API.Mappers;
 using CMQuiz.Web.API.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CMQuiz.Web.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/auth")]
 public class AuthController(
     ILoginUseCase loginUseCase,
     IRegisterUseCase registerUseCase,
@@ -81,6 +81,7 @@ public class AuthController(
     /// Проверить текущего пользователя
     /// </summary>
     [HttpGet("me")]
+    [Authorize]
     public IActionResult GetMe()
     {
         var sessionId = Request.Cookies["sessionId"];

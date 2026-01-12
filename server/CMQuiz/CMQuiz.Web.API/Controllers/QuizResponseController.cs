@@ -1,5 +1,6 @@
 using CMQuiz.Application.Interfaces;
 using CMQuiz.Application.Requests;
+using CMQuiz.Web.API.Attributes;
 using CMQuiz.Web.API.Mappers;
 using CMQuiz.Web.API.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace CMQuiz.Web.API.Controllers;
 
 [ApiController]
 [Route("api/quizzes/{quizId}/responses")]
+[Authorize]
 public class QuizResponseController(ISubmitQuizResponseUseCase submitQuizResponseUseCase) : ControllerBase
 {
     /// <summary>

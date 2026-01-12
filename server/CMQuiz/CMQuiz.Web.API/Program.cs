@@ -1,7 +1,6 @@
 ﻿using CMQuiz.Application.Interfaces;
 using CMQuiz.Application.UseCases;
 using CMQuiz.Infrastructure;
-using CMQuiz.Web.API.Middleware;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -35,6 +34,9 @@ builder.Services.AddSwaggerGen(c =>
 // Add Infrastructure
 builder.Services.AddInfrastructure();
 
+// Add Filters
+builder.Services.AddScoped<CMQuiz.Web.API.Filters.AuthorizeFilter>();
+
 // Add Application Use Cases
 builder.Services.AddScoped<ICreateQuizUseCase, CreateQuizUseCase>();
 builder.Services.AddScoped<IGetQuizUseCase, GetQuizUseCase>();
@@ -47,7 +49,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "http://localhost:5173")
+        policy.WithOrigins("http://localhost:3000", "http://localhost:5173", "http://localhost:4200")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -56,19 +58,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "CMQuiz API v1");
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "CMQuiz API v1");
+});
 
 app.UseCors();
-
-app.UseMiddleware<AuthMiddleware>();
 
 app.UseAuthorization();
 

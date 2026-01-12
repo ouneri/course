@@ -1,6 +1,7 @@
 using CMQuiz.Application.Interfaces;
 using CMQuiz.Application.Requests;
 using CMQuiz.Domain.Entities;
+using CMQuiz.Web.API.Attributes;
 using CMQuiz.Web.API.Mappers;
 using CMQuiz.Web.API.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace CMQuiz.Web.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/quizes")]
+[Authorize]
 public class QuizController(
     ICreateQuizUseCase createQuizUseCase,
     IGetQuizUseCase getQuizUseCase)
