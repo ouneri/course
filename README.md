@@ -52,6 +52,8 @@ Frontend development course covering HTML, CSS, JavaScript, TypeScript, and Angu
 - [ ] Task: Create list page with pagination
 - [ ] Task: Create create, edit, delete forms for quiz entity
 
+### [Module 11: Auth](./lesson_11)
+
 ## License
 
 MIT License - see [LICENSE](./LICENSE) file.
