@@ -1,0 +1,47 @@
+<div class="auth-modal-overlay" (click)="close()">
+  <div class="auth-modal" (click)="$event.stopPropagation()">
+    <div class="auth-modal-header">
+      <h2>{{ mode === 'login' ? 'Вход' : 'Регистрация' }}</h2>
+      <button class="auth-close" (click)="close()">×</button>
+    </div>
+
+    <div class="auth-tabs">
+      <button
+        class="auth-tab"
+        [class.active]="mode === 'login'"
+        (click)="switchMode('login')"
+      >
+        Вход
+      </button>
+      <button
+        class="auth-tab"
+        [class.active]="mode === 'register'"
+        (click)="switchMode('register')"
+      >
+        Регистрация
+      </button>
+    </div>
+
+    @if (error) {
+      <p class="auth-error">{{ error }}</p>
+    }
+
+    <label>
+      Логин
+      <input type="text" [(ngModel)]="username" name="username" />
+    </label>
+
+    <label>
+      Пароль
+      <input type="password" [(ngModel)]="password" name="password" />
+    </label>
+
+    <button class="auth-submit" (click)="submit()" [disabled]="isSubmitting">
+      @if (isSubmitting) {
+        Подождите...
+      } @else {
+        {{ mode === 'login' ? 'Войти' : 'Создать аккаунт' }}
+      }
+    </button>
+  </div>
+</div>

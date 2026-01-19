@@ -1,6 +1,18 @@
 <nav>
-  <a routerLink="/">Список квизов</a>
-  <a routerLink="/create">Создать новый квиз</a>
+  @if (authService.isAuthenticated()) {
+    <a routerLink="/">Список квизов</a>
+    <a routerLink="/create">Создать новый квиз</a>
+  }
+  @if (!authService.isAuthenticated()) {
+    <button (click)="openAuth('login')">Вход</button>
+    <button (click)="openAuth('register')">Регистрация</button>
+  } @else {
+    <button (click)="logout()">Выйти</button>
+  }
 </nav>
 
 <router-outlet></router-outlet>
+
+@if (authModalOpen) {
+  <app-auth-modal [mode]="authMode" (closed)="closeAuth()"></app-auth-modal>
+}

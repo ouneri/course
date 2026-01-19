@@ -1,0 +1,55 @@
+* {
+  box-sizing: border-box;
+}
+
+:host {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #e2e8f0;
+  background: #000000;
+  min-height: 100vh;
+  display: block;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  background: rgba(15, 15, 15, 0.8);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+nav a {
+  color: #e2e8f0;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: #60a5fa;
+}
+
+nav button {
+  margin-left: auto;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(239, 68, 68, 0.9);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+nav button:hover {
+  background: #dc2626;
+}
+
+router-outlet + * {
+  display: block;
+  padding: 0;
+}

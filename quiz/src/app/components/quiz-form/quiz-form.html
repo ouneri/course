@@ -1,1 +1,36 @@
-<p>quiz-form works!</p>
+@if (!isAuthenticated()) {
+  <p>Сначала войдите, чтобы создать квиз.</p>
+} @else {
+  <div class="quiz-form-page">
+    <div class="quiz-form">
+    <h2>Создать квиз</h2>
+
+    @if (error) {
+      <p>{{ error }}</p>
+    }
+
+    <label>
+      Название
+      <input
+        type="text"
+        [(ngModel)]="name"
+        name="name"
+        placeholder="Введите название"
+      />
+    </label>
+
+    <label>
+      Описание
+      <textarea
+        [(ngModel)]="description"
+        name="description"
+        placeholder="Введите описание"
+      ></textarea>
+    </label>
+
+    <button (click)="submit()" [disabled]="isSubmitting">
+      Создать
+    </button>
+    </div>
+  </div>
+}

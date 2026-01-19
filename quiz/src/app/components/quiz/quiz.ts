@@ -1,6 +1,6 @@
-import {Component, signal, inject} from '@angular/core';
-import { Quizinterface } from '../../interfaces/quiz.interface';
-import {QuizService} from '../../services/quiz.service';
+import { Component, effect, inject } from '@angular/core';
+import { QuizService } from '../../services/quiz.service';
+import { AuthService } from '../../services/auth.service';
 
 
 
@@ -14,14 +14,13 @@ import {QuizService} from '../../services/quiz.service';
 export class Quiz {
 
   quizService = inject(QuizService);
+  authService = inject(AuthService);
 
-  addRandomQuiz() {
-    const newQuizzez: Quizinterface = {
-      id: Date.now(),
-      title: 'Рандомный квиз',
-      description: 'loremloremlorem',
-      questions: [],
-    };
-    this.quizService.addQuiz(newQuizzez);
+  constructor() {
+    effect(() => {
+      if (this.authService.isAuthenticated()) {
+        this.quizService.loadQuizzes();
+      }
+    });
   }
 }
