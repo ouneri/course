@@ -14,12 +14,16 @@
       <div class="quiz-card">
         <h3>{{ item.title }}</h3>
         <p>{{ item.description }}</p>
-        <button>Открыть квиз</button>
+        <button type="button" (click)="openQuiz(item)">Открыть квиз</button>
       </div>
     } @empty {
       <p>Квизы пока не найдены.</p>
     }
   </div>
+
+  @if (showThankYou) {
+    <p class="quiz-thank-you">Спасибо за прохождение квиза!</p>
+  }
 
   <div class="paginations-control">
     <button
@@ -40,4 +44,54 @@
       Вперед
     </button>
   </div>
+
+  @if (activeQuiz) {
+    <div class="quiz-backdrop" (click)="closeQuiz()"></div>
+    <div class="quiz-modal">
+      <div class="quiz-modal__header">
+        <div>
+          <h3>{{ activeQuiz.title }}</h3>
+          <p>{{ activeQuiz.description }}</p>
+        </div>
+        <button type="button" (click)="closeQuiz()">Закрыть</button>
+      </div>
+
+      <div class="quiz-progress">
+        <div class="quiz-progress__info">
+          <span>Прогресс по квизам</span>
+          <span>
+            {{ currentQuizIndex(activeQuiz) + 1 }} / {{ totalQuizzes() }}
+          </span>
+        </div>
+        <div class="quiz-progress__bar">
+          <div
+            class="quiz-progress__fill"
+            [style.width.%]="quizProgressPercent(activeQuiz)"
+          ></div>
+        </div>
+      </div>
+
+      <div class="quiz-items">
+        @for (question of activeQuiz.items; track question.id; let questionIndex = $index) {
+          <div class="quiz-item">
+            <p class="quiz-item__title">Вопрос {{ questionIndex + 1 }}</p>
+            <div class="quiz-options">
+              @for (option of question.options; track option) {
+                <button
+                  type="button"
+                  class="quiz-option-button"
+                  [class.quiz-option-button--selected]="isSelected(activeQuiz.id, question.id, option)"
+                  (click)="handleOptionSelect(activeQuiz, question.id, option)"
+                >
+                  {{ option }}
+                </button>
+              }
+            </div>
+          </div>
+        } @empty {
+          <p class="quiz-empty">Вопросы пока не добавлены.</p>
+        }
+      </div>
+    </div>
+  }
 }

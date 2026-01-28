@@ -1,6 +1,6 @@
 import { inject, Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, of, tap, timeout } from 'rxjs';
+import { catchError, map, of, switchMap, tap, throwError, timeout } from 'rxjs';
 import { API_BASE_URL } from './api.config';
 
 interface AuthMeResponse {
@@ -35,7 +35,13 @@ export class AuthService {
       .post(`${API_BASE_URL}/api/auth/login`, { username, password }, { withCredentials: true })
       .pipe(
         timeout(8000),
-        tap(() => this.refreshSession().subscribe())
+        switchMap(() =>
+          this.refreshSession().pipe(
+            switchMap((success) =>
+              success ? of(true) : throwError(() => new Error('Session not established'))
+            )
+          )
+        )
       );
   }
 
@@ -44,7 +50,13 @@ export class AuthService {
       .post(`${API_BASE_URL}/api/auth/register`, { username, password }, { withCredentials: true })
       .pipe(
         timeout(8000),
-        tap(() => this.refreshSession().subscribe())
+        switchMap(() =>
+          this.refreshSession().pipe(
+            switchMap((success) =>
+              success ? of(true) : throwError(() => new Error('Session not established'))
+            )
+          )
+        )
       );
   }
 

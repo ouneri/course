@@ -4,11 +4,20 @@ import { catchError, map, of, tap } from 'rxjs';
 import { Quizinterface } from '../interfaces/quiz.interface';
 import { API_BASE_URL } from './api.config';
 
+interface QuizItemSelectApiModel {
+  type: 'select';
+  id: number;
+  quizId: number;
+  options: string[];
+}
+
+type QuizItemApiModel = QuizItemSelectApiModel;
+
 interface QuizApiModel {
   id: number;
   name: string;
   description: string;
-  items: unknown[];
+  items: QuizItemApiModel[];
 }
 
 interface PagedResult<T> {
@@ -87,7 +96,13 @@ export class QuizService {
           id: quiz.id,
           title: quiz.name,
           description: quiz.description,
-          questions: [],
+          items: quiz.items
+            .filter((item) => item.type === 'select')
+            .map((item) => ({
+              id: item.id,
+              type: 'select' as const,
+              options: item.options,
+            })),
         }));
         this.quizzesSignal.set(items);
         this.totalCount.set(response.totalCount);
@@ -95,14 +110,17 @@ export class QuizService {
       });
   }
 
-  addQuiz(name: string, description: string) {
+  addQuiz(name: string, description: string, items: { options: string[] }[]) {
     return this.http
       .post<QuizApiModel>(
         `${API_BASE_URL}/api/quizes`,
         {
           name,
           description,
-          items: [],
+          items: items.map((item) => ({
+            type: 'select',
+            options: item.options,
+          })),
         },
         { withCredentials: true }
       )

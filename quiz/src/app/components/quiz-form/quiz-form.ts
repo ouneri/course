@@ -14,6 +14,7 @@ import { AuthService } from '../../services/auth.service';
 export class QuizForm {
   name = '';
   description = '';
+  questions: { options: string[] }[] = [{ options: ['', ''] }];
   error: string | null = null;
   isSubmitting = false;
 
@@ -25,6 +26,22 @@ export class QuizForm {
 
   isAuthenticated() {
     return this.authService.isAuthenticated();
+  }
+
+  addQuestion() {
+    this.questions.push({ options: ['', ''] });
+  }
+
+  removeQuestion(index: number) {
+    this.questions.splice(index, 1);
+  }
+
+  addOption(questionIndex: number) {
+    this.questions[questionIndex].options.push('');
+  }
+
+  removeOption(questionIndex: number, optionIndex: number) {
+    this.questions[questionIndex].options.splice(optionIndex, 1);
   }
 
   submit() {
@@ -40,10 +57,28 @@ export class QuizForm {
       return;
     }
 
+    if (this.questions.length === 0) {
+      this.error = 'Добавьте хотя бы один вопрос.';
+      return;
+    }
+
+    const preparedQuestions = this.questions.map((question) => ({
+      options: question.options.map((option) => option.trim()).filter(Boolean),
+    }));
+
+    const hasInvalidOptions = preparedQuestions.some(
+      (question) => question.options.length < 2
+    );
+
+    if (hasInvalidOptions) {
+      this.error = 'В каждом вопросе должно быть минимум 2 варианта.';
+      return;
+    }
+
     this.isSubmitting = true;
     this.error = null;
 
-    this.quizService.addQuiz(name, description).subscribe((success) => {
+    this.quizService.addQuiz(name, description, preparedQuestions).subscribe((success) => {
       this.isSubmitting = false;
       if (!success) {
         this.error = 'Не удалось создать квиз.';
