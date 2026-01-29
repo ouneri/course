@@ -11,7 +11,14 @@ interface QuizItemSelectApiModel {
   options: string[];
 }
 
-type QuizItemApiModel = QuizItemSelectApiModel;
+interface QuizItemTextApiModel {
+  type: 'text';
+  id: number;
+  quizId: number;
+  placeholder: string;
+}
+
+type QuizItemApiModel = QuizItemSelectApiModel | QuizItemTextApiModel;
 
 interface QuizApiModel {
   id: number;
@@ -96,13 +103,12 @@ export class QuizService {
           id: quiz.id,
           title: quiz.name,
           description: quiz.description,
-          items: quiz.items
-            .filter((item) => item.type === 'select')
-            .map((item) => ({
-              id: item.id,
-              type: 'select' as const,
-              options: item.options,
-            })),
+          items: quiz.items.map((item) => {
+            if (item.type === 'select') {
+              return { id: item.id, type: 'select' as const, options: item.options };
+            }
+            return { id: item.id, type: 'text' as const, placeholder: item.placeholder };
+          }),
         }));
         this.quizzesSignal.set(items);
         this.totalCount.set(response.totalCount);
@@ -110,17 +116,22 @@ export class QuizService {
       });
   }
 
-  addQuiz(name: string, description: string, items: { options: string[] }[]) {
+  addQuiz(
+    name: string,
+    description: string,
+    items: ({ type: 'select'; options: string[] } | { type: 'text'; placeholder: string })[]
+  ) {
     return this.http
       .post<QuizApiModel>(
         `${API_BASE_URL}/api/quizes`,
         {
           name,
           description,
-          items: items.map((item) => ({
-            type: 'select',
-            options: item.options,
-          })),
+          items: items.map((item) =>
+            item.type === 'select'
+              ? { type: 'select', options: item.options }
+              : { type: 'text', placeholder: item.placeholder }
+          ),
         },
         { withCredentials: true }
       )

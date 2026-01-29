@@ -14,13 +14,23 @@ export class App {
   protected readonly title = signal('quiz');
   authModalOpen = false;
   authMode: 'login' | 'register' = 'login';
+  accountMenuOpen = false;
 
   constructor(public authService: AuthService) {
     this.authService.refreshSession().subscribe();
   }
 
-  openAuth(mode: 'login' | 'register') {
+  toggleAccountMenu() {
+    this.accountMenuOpen = !this.accountMenuOpen;
+  }
+
+  closeAccountMenu() {
+    this.accountMenuOpen = false;
+  }
+
+  openAuthFromMenu(mode: 'login' | 'register') {
     this.authMode = mode;
+    this.accountMenuOpen = false;
     this.authModalOpen = true;
   }
 

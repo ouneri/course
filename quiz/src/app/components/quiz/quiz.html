@@ -75,22 +75,45 @@
         @for (question of activeQuiz.items; track question.id; let questionIndex = $index) {
           <div class="quiz-item">
             <p class="quiz-item__title">Вопрос {{ questionIndex + 1 }}</p>
-            <div class="quiz-options">
-              @for (option of question.options; track option) {
-                <button
-                  type="button"
-                  class="quiz-option-button"
-                  [class.quiz-option-button--selected]="isSelected(activeQuiz.id, question.id, option)"
-                  (click)="handleOptionSelect(activeQuiz, question.id, option)"
-                >
-                  {{ option }}
-                </button>
-              }
-            </div>
+            @if (question.type === 'select') {
+              <div class="quiz-options">
+                @for (option of question.options; track option) {
+                  <button
+                    type="button"
+                    class="quiz-option-button"
+                    [class.quiz-option-button--selected]="isSelected(activeQuiz.id, question.id, option)"
+                    (click)="handleOptionSelect(activeQuiz, question.id, option)"
+                  >
+                    {{ option }}
+                  </button>
+                }
+              </div>
+            } @else {
+              <div class="quiz-text-answer">
+                <input
+                  type="text"
+                  [ngModel]="getTextAnswer(activeQuiz.id, question.id)"
+                  (ngModelChange)="setTextAnswer(activeQuiz.id, question.id, $event)"
+                  [placeholder]="question.placeholder"
+                  class="quiz-text-input"
+                />
+              </div>
+            }
           </div>
         } @empty {
           <p class="quiz-empty">Вопросы пока не добавлены.</p>
         }
+      </div>
+
+      <div class="quiz-modal__footer">
+        <button
+          type="button"
+          class="quiz-next-button"
+          [disabled]="!isQuizCompleted(activeQuiz)"
+          (click)="advanceQuiz()"
+        >
+          Далее
+        </button>
       </div>
     </div>
   }

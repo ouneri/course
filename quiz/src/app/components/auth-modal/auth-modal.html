@@ -1,21 +1,27 @@
-<div class="auth-modal-overlay" (click)="close()">
-  <div class="auth-modal" (click)="$event.stopPropagation()">
-    <div class="auth-modal-header">
-      <h2>{{ mode === 'login' ? 'Вход' : 'Регистрация' }}</h2>
-      <button class="auth-close" (click)="close()">×</button>
+<div class="auth-overlay" (click)="close()">
+  <div class="auth-card" (click)="$event.stopPropagation()">
+    <button type="button" class="auth-close" (click)="close()" aria-label="Закрыть">
+      <span aria-hidden="true">×</span>
+    </button>
+
+    <div class="auth-header">
+      <h2 class="auth-title">{{ mode === 'login' ? 'Вход в аккаунт' : 'Регистрация' }}</h2>
+      <p class="auth-subtitle">{{ mode === 'login' ? 'Введите логин и пароль' : 'Создайте аккаунт для создания квизов' }}</p>
     </div>
 
     <div class="auth-tabs">
       <button
+        type="button"
         class="auth-tab"
-        [class.active]="mode === 'login'"
+        [class.auth-tab--active]="mode === 'login'"
         (click)="switchMode('login')"
       >
         Вход
       </button>
       <button
+        type="button"
         class="auth-tab"
-        [class.active]="mode === 'register'"
+        [class.auth-tab--active]="mode === 'register'"
         (click)="switchMode('register')"
       >
         Регистрация
@@ -26,22 +32,38 @@
       <p class="auth-error">{{ error }}</p>
     }
 
-    <label>
-      Логин
-      <input type="text" [(ngModel)]="username" name="username" />
-    </label>
+    <form class="auth-form" (ngSubmit)="submit()">
+      <label class="auth-label">
+        <span class="auth-label-text">Логин</span>
+        <input
+          type="text"
+          class="auth-input"
+          [(ngModel)]="username"
+          name="username"
+          placeholder="Введите логин"
+          autocomplete="username"
+        />
+      </label>
 
-    <label>
-      Пароль
-      <input type="password" [(ngModel)]="password" name="password" />
-    </label>
+      <label class="auth-label">
+        <span class="auth-label-text">Пароль</span>
+        <input
+          type="password"
+          class="auth-input"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Введите пароль"
+          autocomplete="{{ mode === 'login' ? 'current-password' : 'new-password' }}"
+        />
+      </label>
 
-    <button class="auth-submit" (click)="submit()" [disabled]="isSubmitting">
-      @if (isSubmitting) {
-        Подождите...
-      } @else {
-        {{ mode === 'login' ? 'Войти' : 'Создать аккаунт' }}
-      }
-    </button>
+      <button type="submit" class="auth-submit" [disabled]="isSubmitting">
+        @if (isSubmitting) {
+          <span class="auth-submit-text">Подождите...</span>
+        } @else {
+          <span class="auth-submit-text">{{ mode === 'login' ? 'Войти' : 'Создать аккаунт' }}</span>
+        }
+      </button>
+    </form>
   </div>
 </div>

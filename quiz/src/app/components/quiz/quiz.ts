@@ -1,13 +1,12 @@
 import { Component, effect, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { QuizService } from '../../services/quiz.service';
 import { AuthService } from '../../services/auth.service';
 import { Quizinterface } from '../../interfaces/quiz.interface';
 
-
-
 @Component({
   selector: 'app-quiz',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './quiz.html',
   styleUrl: './quiz.scss',
   standalone: true,
@@ -52,26 +51,22 @@ export class Quiz {
     return this.selectedOptions[this.optionKey(quizId, itemId)] === option;
   }
 
-  handleOptionSelect(quiz: Quizinterface, itemId: number, option: string) {
-    this.selectOption(quiz.id, itemId, option);
-    if (!this.isQuizCompleted(quiz)) {
-      return;
-    }
-
-    const quizzes = this.quizService.paginatedQuizzes();
-    const currentIndex = quizzes.findIndex((item) => item.id === quiz.id);
-    const nextQuiz = currentIndex >= 0 ? quizzes[currentIndex + 1] : null;
-
-    if (nextQuiz) {
-      this.openQuiz(nextQuiz);
-      return;
-    }
-
-    this.closeQuiz();
-    this.showThankYou = true;
+  getTextAnswer(quizId: number, itemId: number): string {
+    return this.selectedOptions[this.optionKey(quizId, itemId)] ?? '';
   }
 
-  private isQuizCompleted(quiz: Quizinterface) {
+  setTextAnswer(quizId: number, itemId: number, value: string) {
+    this.selectedOptions[this.optionKey(quizId, itemId)] = value;
+  }
+
+  handleOptionSelect(quiz: Quizinterface, itemId: number, option: string) {
+    this.selectOption(quiz.id, itemId, option);
+    if (this.isQuizCompleted(quiz)) {
+      this.advanceQuiz();
+    }
+  }
+
+  isQuizCompleted(quiz: Quizinterface) {
     if (quiz.items.length === 0) {
       return true;
     }
@@ -79,6 +74,22 @@ export class Quiz {
       const key = this.optionKey(quiz.id, item.id);
       return Boolean(this.selectedOptions[key]);
     });
+  }
+
+  advanceQuiz() {
+    if (!this.activeQuiz || !this.isQuizCompleted(this.activeQuiz)) {
+      return;
+    }
+    const quizzes = this.quizService.paginatedQuizzes();
+    const currentIndex = quizzes.findIndex((item) => item.id === this.activeQuiz!.id);
+    const nextQuiz = currentIndex >= 0 ? quizzes[currentIndex + 1] : null;
+
+    if (nextQuiz) {
+      this.openQuiz(nextQuiz);
+      return;
+    }
+    this.closeQuiz();
+    this.showThankYou = true;
   }
 
   totalQuizzes() {

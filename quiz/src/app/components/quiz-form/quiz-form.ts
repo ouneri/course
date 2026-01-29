@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { QuizService } from '../../services/quiz.service';
 import { AuthService } from '../../services/auth.service';
 
+type QuestionFormSelect = { type: 'select'; options: string[] };
+type QuestionFormText = { type: 'text'; placeholder: string };
+type QuestionForm = QuestionFormSelect | QuestionFormText;
+
 @Component({
   selector: 'app-quiz-form',
   imports: [FormsModule],
@@ -14,7 +18,7 @@ import { AuthService } from '../../services/auth.service';
 export class QuizForm {
   name = '';
   description = '';
-  questions: { options: string[] }[] = [{ options: ['', ''] }];
+  questions: QuestionForm[] = [{ type: 'select', options: ['', ''] }];
   error: string | null = null;
   isSubmitting = false;
 
@@ -28,8 +32,12 @@ export class QuizForm {
     return this.authService.isAuthenticated();
   }
 
-  addQuestion() {
-    this.questions.push({ options: ['', ''] });
+  addQuestion(type: 'select' | 'text') {
+    if (type === 'select') {
+      this.questions.push({ type: 'select', options: ['', ''] });
+    } else {
+      this.questions.push({ type: 'text', placeholder: '' });
+    }
   }
 
   removeQuestion(index: number) {
@@ -37,11 +45,17 @@ export class QuizForm {
   }
 
   addOption(questionIndex: number) {
-    this.questions[questionIndex].options.push('');
+    const q = this.questions[questionIndex];
+    if (q.type === 'select') {
+      q.options.push('');
+    }
   }
 
   removeOption(questionIndex: number, optionIndex: number) {
-    this.questions[questionIndex].options.splice(optionIndex, 1);
+    const q = this.questions[questionIndex];
+    if (q.type === 'select' && q.options.length > 2) {
+      q.options.splice(optionIndex, 1);
+    }
   }
 
   submit() {
@@ -62,23 +76,30 @@ export class QuizForm {
       return;
     }
 
-    const preparedQuestions = this.questions.map((question) => ({
-      options: question.options.map((option) => option.trim()).filter(Boolean),
-    }));
+    const preparedItems: ({ type: 'select'; options: string[] } | { type: 'text'; placeholder: string })[] = [];
 
-    const hasInvalidOptions = preparedQuestions.some(
-      (question) => question.options.length < 2
-    );
-
-    if (hasInvalidOptions) {
-      this.error = 'В каждом вопросе должно быть минимум 2 варианта.';
-      return;
+    for (const question of this.questions) {
+      if (question.type === 'select') {
+        const options = question.options.map((o) => o.trim()).filter(Boolean);
+        if (options.length < 2) {
+          this.error = 'В вопросе с выбором варианта должно быть минимум 2 варианта.';
+          return;
+        }
+        preparedItems.push({ type: 'select', options });
+      } else {
+        const placeholder = question.placeholder.trim();
+        if (!placeholder) {
+          this.error = 'У текстового вопроса заполните подсказку (placeholder).';
+          return;
+        }
+        preparedItems.push({ type: 'text', placeholder });
+      }
     }
 
     this.isSubmitting = true;
     this.error = null;
 
-    this.quizService.addQuiz(name, description, preparedQuestions).subscribe((success) => {
+    this.quizService.addQuiz(name, description, preparedItems).subscribe((success) => {
       this.isSubmitting = false;
       if (!success) {
         this.error = 'Не удалось создать квиз.';

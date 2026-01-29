@@ -31,40 +31,59 @@
     <div class="quiz-questions">
       <div class="quiz-questions__header">
         <h3>Вопросы</h3>
-        <button type="button" (click)="addQuestion()">Добавить вопрос</button>
+        <div class="quiz-questions__actions">
+          <button type="button" (click)="addQuestion('select')">Добавить вопрос с выбором</button>
+          <button type="button" (click)="addQuestion('text')">Добавить текстовый вопрос</button>
+        </div>
       </div>
 
       @for (question of questions; track $index; let questionIndex = $index) {
         <div class="quiz-question">
           <div class="quiz-question__title">
             <span>Вопрос {{ questionIndex + 1 }}</span>
+            @if (question.type === 'select') {
+              <span class="quiz-question__type">(выбор варианта)</span>
+            } @else {
+              <span class="quiz-question__type">(текстовый ответ)</span>
+            }
             @if (questions.length > 1) {
               <button type="button" (click)="removeQuestion(questionIndex)">Удалить</button>
             }
           </div>
 
-          <div class="quiz-options">
-            @for (option of question.options; track $index; let optionIndex = $index) {
-              <div class="quiz-option">
-                <input
-                  type="text"
-                  [(ngModel)]="question.options[optionIndex]"
-                  name="option-{{ questionIndex }}-{{ optionIndex }}"
-                  placeholder="Вариант ответа"
-                />
-                @if (question.options.length > 2) {
-                  <button
-                    type="button"
-                    (click)="removeOption(questionIndex, optionIndex)"
-                  >
-                    Удалить
-                  </button>
-                }
-              </div>
-            }
-          </div>
-
-          <button type="button" (click)="addOption(questionIndex)">Добавить вариант</button>
+          @if (question.type === 'select') {
+            <div class="quiz-options">
+              @for (option of question.options; track $index; let optionIndex = $index) {
+                <div class="quiz-option">
+                  <input
+                    type="text"
+                    [(ngModel)]="question.options[optionIndex]"
+                    name="option-{{ questionIndex }}-{{ optionIndex }}"
+                    placeholder="Вариант ответа"
+                  />
+                  @if (question.options.length > 2) {
+                    <button
+                      type="button"
+                      (click)="removeOption(questionIndex, optionIndex)"
+                    >
+                      Удалить
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+            <button type="button" (click)="addOption(questionIndex)">Добавить вариант</button>
+          } @else {
+            <label class="quiz-text-placeholder">
+              Подсказка в поле ввода (placeholder)
+              <input
+                type="text"
+                [(ngModel)]="question.placeholder"
+                name="placeholder-{{ questionIndex }}"
+                placeholder="Например: Введите ваш ответ"
+              />
+            </label>
+          }
         </div>
       }
     </div>

@@ -1,15 +1,31 @@
-<nav>
+<nav class="nav">
+  <a routerLink="/" class="nav-logo">Quiz</a>
   @if (authService.isAuthenticated()) {
-    <a routerLink="/">Список квизов</a>
-    <a routerLink="/create">Создать новый квиз</a>
+    <a routerLink="/create" class="nav-link">Создать квиз</a>
   }
-  @if (!authService.isAuthenticated()) {
-    <button (click)="openAuth('login')">Вход</button>
-    <button (click)="openAuth('register')">Регистрация</button>
-  } @else {
-    <button (click)="logout()">Выйти</button>
-  }
+  <div class="nav-actions">
+    @if (!authService.isAuthenticated()) {
+      <div class="nav-account">
+        <button type="button" class="nav-trigger" (click)="toggleAccountMenu()" (keydown.escape)="closeAccountMenu()">
+          Аккаунт
+          <span class="nav-trigger-icon" [class.open]="accountMenuOpen">▼</span>
+        </button>
+        @if (accountMenuOpen) {
+          <div class="nav-dropdown" (click)="$event.stopPropagation()">
+            <button type="button" class="nav-dropdown-item" (click)="openAuthFromMenu('login')">Войти</button>
+            <button type="button" class="nav-dropdown-item" (click)="openAuthFromMenu('register')">Зарегистрироваться</button>
+          </div>
+        }
+      </div>
+    } @else {
+      <button type="button" class="nav-logout" (click)="logout()">Выйти</button>
+    }
+  </div>
 </nav>
+
+@if (accountMenuOpen) {
+  <div class="nav-backdrop" (click)="closeAccountMenu()"></div>
+}
 
 <router-outlet></router-outlet>
 
