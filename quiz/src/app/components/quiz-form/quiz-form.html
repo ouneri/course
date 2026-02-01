@@ -51,6 +51,25 @@
             }
           </div>
 
+          <label class="auth-label">
+            <span class="auth-label-text">Название вопроса</span>
+            <input
+              type="text"
+              [(ngModel)]="question.title"
+              [name]="'title-' + questionIndex"
+              placeholder="Например: Выберите правильный ответ"
+            />
+          </label>
+          <label class="auth-label">
+            <span class="auth-label-text">Описание вопроса</span>
+            <input
+              type="text"
+              [(ngModel)]="question.description"
+              [name]="'description-' + questionIndex"
+              placeholder="Необязательно"
+            />
+          </label>
+
           @if (question.type === 'select') {
             <div class="quiz-options">
               @for (option of question.options; track $index; let optionIndex = $index) {
@@ -75,7 +94,7 @@
             <button type="button" (click)="addOption(questionIndex)">Добавить вариант</button>
           } @else {
             <label class="quiz-text-placeholder">
-              Подсказка в поле ввода (placeholder)
+              Подсказка в поле ввода
               <input
                 type="text"
                 [(ngModel)]="question.placeholder"

@@ -119,7 +119,10 @@ export class QuizService {
   addQuiz(
     name: string,
     description: string,
-    items: ({ type: 'select'; options: string[] } | { type: 'text'; placeholder: string })[]
+    items: (
+      | { type: 'select'; title: string; description: string; options: string[] }
+      | { type: 'text'; title: string; description: string; placeholder: string }
+    )[]
   ) {
     return this.http
       .post<QuizApiModel>(
@@ -129,8 +132,8 @@ export class QuizService {
           description,
           items: items.map((item) =>
             item.type === 'select'
-              ? { type: 'select', options: item.options }
-              : { type: 'text', placeholder: item.placeholder }
+              ? { type: 'select', title: item.title, description: item.description, options: item.options }
+              : { type: 'text', title: item.title, description: item.description, placeholder: item.placeholder }
           ),
         },
         { withCredentials: true }

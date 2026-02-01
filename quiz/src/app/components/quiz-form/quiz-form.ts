@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { QuizService } from '../../services/quiz.service';
 import { AuthService } from '../../services/auth.service';
 
-type QuestionFormSelect = { type: 'select'; options: string[] };
-type QuestionFormText = { type: 'text'; placeholder: string };
+type QuestionFormSelect = { type: 'select'; title: string; description: string; options: string[] };
+type QuestionFormText = { type: 'text'; title: string; description: string; placeholder: string };
 type QuestionForm = QuestionFormSelect | QuestionFormText;
 
 @Component({
@@ -18,7 +18,7 @@ type QuestionForm = QuestionFormSelect | QuestionFormText;
 export class QuizForm {
   name = '';
   description = '';
-  questions: QuestionForm[] = [{ type: 'select', options: ['', ''] }];
+  questions: QuestionForm[] = [{ type: 'select', title: '', description: '', options: ['', ''] }];
   error: string | null = null;
   isSubmitting = false;
 
@@ -34,9 +34,9 @@ export class QuizForm {
 
   addQuestion(type: 'select' | 'text') {
     if (type === 'select') {
-      this.questions.push({ type: 'select', options: ['', ''] });
+      this.questions.push({ type: 'select', title: '', description: '', options: ['', ''] });
     } else {
-      this.questions.push({ type: 'text', placeholder: '' });
+      this.questions.push({ type: 'text', title: '', description: '', placeholder: '' });
     }
   }
 
@@ -76,23 +76,32 @@ export class QuizForm {
       return;
     }
 
-    const preparedItems: ({ type: 'select'; options: string[] } | { type: 'text'; placeholder: string })[] = [];
+    const preparedItems: (
+      | { type: 'select'; title: string; description: string; options: string[] }
+      | { type: 'text'; title: string; description: string; placeholder: string }
+    )[] = [];
 
     for (const question of this.questions) {
+      const title = question.title.trim();
+      const description = question.description.trim();
+      if (!title) {
+        this.error = 'У каждого вопроса заполните название (title).';
+        return;
+      }
       if (question.type === 'select') {
         const options = question.options.map((o) => o.trim()).filter(Boolean);
         if (options.length < 2) {
           this.error = 'В вопросе с выбором варианта должно быть минимум 2 варианта.';
           return;
         }
-        preparedItems.push({ type: 'select', options });
+        preparedItems.push({ type: 'select', title, description, options });
       } else {
         const placeholder = question.placeholder.trim();
         if (!placeholder) {
           this.error = 'У текстового вопроса заполните подсказку (placeholder).';
           return;
         }
-        preparedItems.push({ type: 'text', placeholder });
+        preparedItems.push({ type: 'text', title, description, placeholder });
       }
     }
 

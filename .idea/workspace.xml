@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="aa881379-e32a-43b2-b5b4-4838e5a9d1e2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/quiz/src/app/components/quiz-form/quiz-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/quiz/src/app/components/quiz-form/quiz-form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/quiz/src/app/components/quiz-form/quiz-form.scss" beforeDir="false" afterPath="$PROJECT_DIR$/quiz/src/app/components/quiz-form/quiz-form.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/quiz/src/app/components/quiz-form/quiz-form.ts" beforeDir="false" afterPath="$PROJECT_DIR$/quiz/src/app/components/quiz-form/quiz-form.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/quiz/src/app/services/quiz.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/quiz/src/app/services/quiz.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,6 +87,10 @@
       <workItem from="1768847016877" duration="1097000" />
       <workItem from="1769616317790" duration="644000" />
       <workItem from="1769691358228" duration="14000" />
+      <workItem from="1769722957750" duration="167000" />
+      <workItem from="1769774216819" duration="1021000" />
+      <workItem from="1769953914304" duration="2348000" />
+      <workItem from="1769958925674" duration="621000" />
     </task>
     <servers />
   </component>
